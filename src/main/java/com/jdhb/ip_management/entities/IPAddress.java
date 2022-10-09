@@ -22,17 +22,34 @@ public class IPAddress {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
+	private Long id;	
 	@OneToOne
 	@JoinColumn(name = "ipPoolId", referencedColumnName = "id")	
-	private IPPool ipPool;
-	
+	private IPPool ipPool;	
 	private String ipValue;
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, ipPool, ipValue);
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public IPPool getIpPool() {
+		return ipPool;
+	}
+
+	public void setIpPool(IPPool ipPool) {
+		this.ipPool = ipPool;
+	}
+
+	public String getIpValue() {
+		return ipValue;
+	}
+
+	public void setIpValue(String ipValue) {
+		this.ipValue = ipValue;
 	}
 
 }
