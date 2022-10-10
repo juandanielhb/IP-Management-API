@@ -39,8 +39,12 @@ public class IPManagementServiceImpl implements IPManagementService{
 	
 	@Override
 	@Transactional
-	public List<IPAddress> generateIPAddresses(IPPool iPPool, int amount){		
-		return iPAddressRepository.saveAll(createPool(iPPool, amount));
+	public List<IPAddress> generateIPAddresses(IPPool iPPool, int amount){	
+		List<IPAddress> iPAddresses = createPool(iPPool, amount);
+		int newUsedCapacity = iPPool.getUsedCapacity() + amount;
+		iPPool.setUsedCapacity(newUsedCapacity);		
+		iPPoolRepository.save(iPPool);
+		return iPAddressRepository.saveAll(iPAddresses);
 	}
 
 	private List<IPAddress> createPool(IPPool iPPool, int amount) {
@@ -55,8 +59,6 @@ public class IPManagementServiceImpl implements IPManagementService{
 				nextAddress[2] = nextAddress[2] + 1;
 				nextAddress[3] = 0;
 			}
-			System.out.println(nextAddress[0]+"."+nextAddress[1]+"."+nextAddress[2]+"."+nextAddress[3]);		
-			
 			pool.add(new IPAddress(iPPool, IPAddress.iPArrayToString(nextAddress)));
 		}
 		
