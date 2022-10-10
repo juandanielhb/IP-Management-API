@@ -1,8 +1,5 @@
 package com.jdhb.ip_management.entities;
 
-import java.util.Objects;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,12 +18,18 @@ import lombok.Setter;
 public class IPAddress {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;	
 	@OneToOne
 	@JoinColumn(name = "ipPoolId", referencedColumnName = "id")	
 	private IPPool ipPool;	
 	private String ipValue;
+
+	public IPAddress(IPPool ipPool, String ipValue) {
+		super();
+		this.ipPool = ipPool;
+		this.ipValue = ipValue;
+	}
 
 	public Long getId() {
 		return id;
@@ -50,6 +53,18 @@ public class IPAddress {
 
 	public void setIpValue(String ipValue) {
 		this.ipValue = ipValue;
+	}
+	
+	public static String iPArrayToString(int[] iPArray) {
+		StringBuilder iPString = new StringBuilder();
+		
+		iPString.append(iPArray[0]).append(".")				
+				.append(iPArray[1]).append(".")
+				.append(iPArray[2]).append(".")
+				.append(iPArray[3]);
+				
+
+		return iPString.toString();
 	}
 
 }
